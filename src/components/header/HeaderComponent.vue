@@ -69,16 +69,18 @@ export default {
         { name: "Hej", link: "/" },
         { name: "Aktuellt", link: "/Aktuellt" },
         { name: "Galleri", link: "/Galleri" },
-        {
-          name: "Video",
-          link: "/Video",
-          params: ["Skådespelare", "Regissör", "Musik"],
-        },
         { name: "Cv", link: "/Cv" },
       ];
     },
     logoLinks() {
       return logos.filter((l) => l.type === "logolink");
+    },
+    videoDropdown() {
+      return {
+        name: "Video",
+        link: "/Video",
+        params: ["Skådespelare", "Regissör", "Musik"],
+      };
     },
   },
 };
