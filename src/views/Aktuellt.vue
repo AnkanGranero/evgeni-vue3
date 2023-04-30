@@ -1,46 +1,75 @@
+
+<script setup>
+import { ref, onMounted, computed } from "vue";
+import axios from "axios";
+import { createClient } from "contentful";
+const authToken = "Bearer EERtWev1qrZXK5wQxGJCVs-W7rEOPkjIHMn38xopqDU";
+const newsItems = ref();
+const destructedNewsItems = ref();
+function destructureNewsItem(items) {
+  return items.map((element) => {
+    let { fields } = element;
+    let updatedElement = { ...fields };
+    updatedElement.body = fields.body.content[0].content[0].value;
+    updatedElement.image =
+      fields.image && fields.image.fields && fields.image.fields.file.url;
+    return updatedElement;
+  });
+}
+function atributeHandler(item, attribute) {
+  try {
+    return item[fields.image.fields.file.url];
+  } catch (error) {
+    return "";
+  }
+}
+const client = createClient({
+  space: "77vux6lerjt0",
+  environment: "master",
+  accessToken: "EERtWev1qrZXK5wQxGJCVs-W7rEOPkjIHMn38xopqDU",
+});
+
+function fetchNewsItems() {
+  client
+    .getEntries()
+    .then((response) => {
+      newsItems.value = response.items;
+      destructedNewsItems.value = destructureNewsItem(response.items);
+    })
+    .catch(console.error);
+}
+const sortedNewsItems = computed(() => {
+  if (destructedNewsItems.value) {
+    return destructedNewsItems.value.sort((a, b) => {
+      return a.date > b.date ? -1 : 1;
+    });
+  }
+});
+
+onMounted(() => {
+  fetchNewsItems();
+});
+</script>
 <template>
   <div id="aktuelltWrapper">
     <h1>Aktuellt!</h1>
     <div class="body-wrapper body-content">
-      <div v-for="news in newsObject" class="newsObject" :key="news.header">
-        <h4>{{ news.header }}</h4>
+      <div v-for="item in sortedNewsItems" class="newsObject" :key="item.title">
+        <h4>{{ item.title }}</h4>
         <div class="text-wrapper">
-          <p>{{ news.bodytext }}</p>
-          <a class="href-text" v-if="news.href" :href="news.href">{{
-            news.hrefText
+          <p>{{ item.body }}</p>
+          <a class="href-text" v-if="item.link" :href="item.link">{{
+            item.linkText
           }}</a>
-          <div v-if="news.href">
-            <a :href="news.href"><img :src="news.src" /> </a>
+          <div v-if="item.link">
+            <a :href="item.href"><img :src="item.image" /> </a>
           </div>
-          <div v-else><img :src="news.src" /></div>
+          <div v-else><img :src="item.image" /></div>
         </div>
       </div>
     </div>
   </div>
 </template>
-<script>
-import { newsObject } from "../NewsObject";
-export default {
-  name: "aktuellt",
-  data() {
-    return {
-      newsObject,
-    };
-  },
-  metaInfo() {
-    return {
-      title: "Aktuellt",
-      meta: [
-        {
-          vmid: "description",
-          name: "Aktuellt",
-          content: this.newsObject[0].bodytext.slice(0, 100),
-        },
-      ],
-    };
-  },
-};
-</script>
 
 <style scoped lang="scss">
 .body-wrapper {
