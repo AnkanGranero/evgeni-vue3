@@ -46,7 +46,9 @@ export default {
   methods: {
     toggleModule() {
       this.moduleOpen = !this.moduleOpen;
-      this.$store.commit.setOverlay(this.moduleOpen);
+      /* I can't remembber why I would need to set overlay in store, doesnt seem nescesary
+      /*      console.log("this store", this.$store);
+      this.$store.commit.setOverlay(this.moduleOpen); */
     },
     getModuleImage(id) {
       this.moduleImage = this.pictures.filter((p) => p.id == id)[0].src;
