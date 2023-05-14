@@ -21,15 +21,15 @@ export default {
   components: {
     Overlay,
   },
-  data() {
+
+  setup(props, { emit }) {
+    const closeMenu = () => {
+      emit("closeDesktopMenu");
+    };
     return {
       VIDEO_TYPES,
+      closeMenu,
     };
-  },
-  methods: {
-    closeMenu() {
-      this.$emit("closeDesktopMenu");
-    },
   },
 };
 </script>
