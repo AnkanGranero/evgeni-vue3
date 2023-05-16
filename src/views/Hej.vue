@@ -3,7 +3,7 @@
     <h1>Hej!</h1>
     <div class="body-wrapper">
       <div class="body-content">
-        <img src="images/Evgeni-turkos.jpeg" id="hej" />
+        <img src="../../public/images/Evgeni-turkos.jpeg" id="hej" />
 
         <p>
           Jag heter Evgeni Leonov och är {{ age }} år gammal. Jag utbildade mig
