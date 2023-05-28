@@ -41,7 +41,7 @@ function fetchNewsItems() {
 const sortedNewsItems = computed(() => {
   if (destructedNewsItems.value) {
     return destructedNewsItems.value.sort((a, b) => {
-      return a.date > b.date ? -1 : 1;
+      return new Date(a.date) > new Date(b.date) > 0 ? -1 : 1;
     });
   }
 });
@@ -62,7 +62,7 @@ onMounted(() => {
             item.linkText
           }}</a>
           <div v-if="item.link">
-            <a :href="item.href"><img :src="item.image" /> </a>
+            <a :href="item.link"><img :src="item.image" /> </a>
           </div>
           <div v-else><img :src="item.image" /></div>
         </div>
