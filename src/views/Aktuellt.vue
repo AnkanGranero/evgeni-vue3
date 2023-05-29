@@ -31,7 +31,9 @@ const client = createClient({
 
 function fetchNewsItems() {
   client
-    .getEntries()
+    .getEntries({
+      content_type: "newsItem",
+    })
     .then((response) => {
       newsItems.value = response.items;
       destructedNewsItems.value = destructureNewsItem(response.items);
