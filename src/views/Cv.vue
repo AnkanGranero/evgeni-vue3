@@ -4,17 +4,9 @@
     <div class="body-wrapper">
       <div class="body-content">
         <div class="imgWrapper">
-          <!--     <img class="cvPicture" :src="pictures[6].src" alt /> -->
+          <img class="cvPicture" src="../../public/images/stairs.jpg" alt />
         </div>
         <div class="cvLista">
-          <div class="personalWrapper">
-            <div class="personalDetails">
-              <p>Född: 1987.03.06</p>
-              <p>Telefon: 070-402 46 06</p>
-              <p>E-mail: evgenileonov1987@gmail.com</p>
-            </div>
-          </div>
-
           <div
             class="meritWrapper"
             v-for="cvCategory in destructedCvItems"
@@ -22,194 +14,13 @@
           >
             <h4>{{ cvCategory.category }}</h4>
             <ul>
-              <li v-for="(item, index) in cvCategory.textList" :key="index">
+              <li v-for="item in cvCategory.textList" :key="item.orderNumber">
                 <h5 v-if="item.nodeType === 'heading-5'">{{ item.value }}</h5>
                 <p v-else>{{ item.value }}</p>
               </li>
 
               <li></li>
             </ul>
-          </div>
-
-          <div class="meritWrapper">
-            <h4>Utbildning</h4>
-            <div>
-              <p>
-                Auktoriserad rysk – svensk kontakttolk. Kammarkollegiet 2021
-              </p>
-              <p>
-                Filmskådespeleri 2, 30 hp Stockholms dramatiska högskola
-                2018-2019
-              </p>
-              <p>
-                Åsa folkhögskola: grundutbildning rysk – svensk kontakttolk
-                2017-2018
-              </p>
-              <p>
-                Filmskådespeleri 1 30 hp Stockholms dramatiska högskola 2014
-              </p>
-              <p>
-                Teaterhögskolan i Stockholm 2007-2010 (skådespelarprogrammet)
-              </p>
-              <p>Studiefrämjandet: Monologkurs 2007</p>
-              <p>St:Eriks gymnasium, teaterlinjen 2003-2006</p>
-            </div>
-          </div>
-          <div class="meritWrapper">
-            <h4>Teater</h4>
-
-            <div>
-              <h5>Vad ska vi göra idag?</h5>
-              <p>UR Roll: Bengt. Regi: Johanna Oskarsson. 2019</p>
-            </div>
-            <div>
-              <h5>20 sätt att överleva högstadiet</h5>
-              <p>
-                4:e teatern.Roller: Överlevare/Evgeni Leonov Regi: Lotta
-                Östlin-Stenshäll. 2015
-              </p>
-            </div>
-            <div>
-              <h5>Vi som blev kvar</h5>
-              <p>
-                Teateri. Roller: Bloggaren, Wilhelm, Ivan. Regi: Anna Sjövall
-                2015
-              </p>
-            </div>
-            <div>
-              <h5>LANA 24-7</h5>
-              <p>
-                Teateri. Roller: Evgeni Leonov, Pappan, Roboten, Lillasystern.
-                Regi: Vera Veljovic 2015
-              </p>
-            </div>
-
-            <div>
-              <h5>Det Värdefulla</h5>
-              <p>Teateri. Roll: Sam. Regi: Gunilla Johansson 2013</p>
-            </div>
-            <div>
-              <h5>Flight To Santiago</h5>
-              <p>Teateri. Roll: E. Regi: Evgeni Leonov 2012</p>
-            </div>
-            <div>
-              <h5>Som glöd under snö</h5>
-              <p>
-                Teateri. Roll: Peppo ”Per-Erik”. Regi: Maja Salomonsson 2011
-              </p>
-            </div>
-
-            <div>
-              <h5>Måsen</h5>
-              <p>
-                Smålands musik och teater. Roll: Konstantin Treplev. Regi: Leif
-                Adolfsson 2010
-              </p>
-            </div>
-            <div>
-              <h5>Melancholia</h5>
-              <p>
-                Slutproduktion på Teaterhögskolan i Stockholm. Roll: Herr Glas.
-                Regi: Ellen Lamm 2010
-              </p>
-            </div>
-            <div>
-              <h5>Swedish history X</h5>
-              <p>
-                Slutproduktion på Teaterhögskolan i Stockholm. Roller: Bagaren,
-                Kung Erik, Nils i Söderby, Agda, Klas Tott, Ankarström. Regi:
-                Pontus Stenshäll 2009
-              </p>
-            </div>
-
-            <div>
-              <h5>Henrik och Pernille</h5>
-              <p>
-                Medevi brunnsteater. Roller: Arv, Präst Regi: Per Holmberg 2008
-              </p>
-            </div>
-
-            <h4>Tv och Film</h4>
-
-            <!--             <div v-for="film in tvOchFilm" :key="film.header">
-              <h5>{{ film.header }}</h5>
-              <p>{{ film.body }}</p>
-            </div> -->
-          </div>
-          <div class="meritWrapper">
-            <h4>Regi</h4>
-            <!--             <div v-for="merit in regi" :key="merit.title">
-              <h5>
-                {{ merit.title }}
-              </h5>
-              <p>
-                {{ merit.body }} <span> {{ merit.year }}</span>
-              </p>
-            </div> -->
-          </div>
-          <div class="meritWrapper">
-            <h4>Dokumentär</h4>
-            <div>
-              <h5>Vi var de som åkte</h5>
-              <p>
-                Skrivit manus, regisserat och klippt dokumentärfilmen ”Vi var de
-                som åkte” som handlar om mina morföräldrar som flydde från Chile
-                efter militärkuppen den 11 september 1973 till Sverige. 2021
-              </p>
-            </div>
-            <h4>Radioteater</h4>
-            <div>
-              <h5>Näsan</h5>
-              <p>
-                Roller: Alla roller utom sjuksystern. Regi: Homero Alvarez. 2016
-              </p>
-            </div>
-          </div>
-          <div class="meritWrapper">
-            <h4>Tolk</h4>
-            <div>
-              <p>Arbetar som kontakttolk för:</p>
-              <p>Transvoice 2018 – nuvarande</p>
-              <p>Språkservice 2019 – nuvarande</p>
-            </div>
-          </div>
-          <div class="meritWrapper">
-            <h4>Musik:</h4>
-            <div>
-              <p>Sjunger och komponerar låtar i bandet Dreaming of Space.</p>
-              <p>Musikledare på Bambi. 2017 – nuvarande</p>
-              <p>
-                Komponerade musiken till Bara va kompis för Kompis Sverige. 2019
-              </p>
-              <p>
-                Komponerade musiken till 4:e teaterns föreställning 20 sätt att
-                överleva högstadiet. 2015
-              </p>
-            </div>
-          </div>
-          <div class="meritWrapper">
-            <h4>Extra jobb</h4>
-            <div>
-              <p>Ledare på LSS läger Tallkrogen 2017, 2018, 2019</p>
-              <p>Lekjumpaledare Stockholm stad 2008-2016</p>
-              <p>Lärare och fritidsvikarie på Vikarieförmedlingen 2013</p>
-              <p>Fritidsvikarie Sundbyberg kommun 2007</p>
-              <p>Tidningsutdelare Stockholm city 2006 – 2007</p>
-            </div>
-          </div>
-          <div class="meritWrapper">
-            <h4>Övrigt</h4>
-            <div>
-              <p>Har ryska och spanska som modersmål.</p>
-              <p>
-                Varit Ersättare i Vård och omsorgsnämnden i Vänsterpartiet
-                Sollentuna 2019
-              </p>
-              <p>EU-valledare för Vänsterpartiet i Sollentuna 2019</p>
-              <p>Arbetat som volontär för Kompis Sverige.</p>
-              <p>Driver den ideella föreningen Scenkonst nu.</p>
-              <p>Spelar akustisk gitarr och piano.</p>
-            </div>
           </div>
         </div>
       </div>
@@ -224,6 +35,7 @@ import axios from "axios";
 import { createClient } from "contentful";
 const authToken = "Bearer EERtWev1qrZXK5wQxGJCVs-W7rEOPkjIHMn38xopqDU";
 const cvItem = ref();
+
 const destructedCvItems = ref();
 const client = createClient({
   space: "77vux6lerjt0",
@@ -243,17 +55,20 @@ function fetchCvItems() {
 }
 
 function destructureCvItem(items) {
-  return items.map((element) => {
-    let { fields } = element;
-    let updatedElement = { ...fields };
-    updatedElement.textList = fields.text.content.map((item) => {
-      return { value: item.content[0].value, nodeType: item.nodeType };
-    });
-    /*     updatedElement.body = fields.body.content[0].content[0].value; */
-    /*    updatedElement.image =
-      fields.image && fields.image.fields && fields.image.fields.file.url; */
-    return updatedElement;
-  });
+  return items
+    .map((element) => {
+      let { fields } = element;
+      let updatedElement = { ...fields };
+      updatedElement.textList = fields.text.content.map((item) => {
+        return {
+          value: item.content[0].value,
+          nodeType: item.nodeType,
+        };
+      });
+
+      return updatedElement;
+    })
+    .sort((a, b) => (a.orderNumber < b.orderNumber ? -1 : 1));
 }
 onMounted(() => {
   fetchCvItems();
