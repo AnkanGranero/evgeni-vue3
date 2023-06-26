@@ -4,7 +4,7 @@
     <div class="body-wrapper">
       <div class="body-content">
         <div class="imgWrapper">
-          <!--     <img class="cvPicture" :src="pictures[6].src" alt /> -->
+          <img class="cvPicture" :src="pictures[6].src" alt />
         </div>
         <div class="cvLista">
           <div class="personalWrapper">
@@ -13,22 +13,6 @@
               <p>Telefon: 070-402 46 06</p>
               <p>E-mail: evgenileonov1987@gmail.com</p>
             </div>
-          </div>
-
-          <div
-            class="meritWrapper"
-            v-for="cvCategory in destructedCvItems"
-            :key="cvCategory.category"
-          >
-            <h4>{{ cvCategory.category }}</h4>
-            <ul>
-              <li v-for="(item, index) in cvCategory.textList" :key="index">
-                <h5 v-if="item.nodeType === 'heading-5'">{{ item.value }}</h5>
-                <p v-else>{{ item.value }}</p>
-              </li>
-
-              <li></li>
-            </ul>
           </div>
 
           <div class="meritWrapper">
@@ -131,21 +115,21 @@
 
             <h4>Tv och Film</h4>
 
-            <!--             <div v-for="film in tvOchFilm" :key="film.header">
+            <div v-for="film in tvOchFilm" :key="film.header">
               <h5>{{ film.header }}</h5>
               <p>{{ film.body }}</p>
-            </div> -->
+            </div>
           </div>
           <div class="meritWrapper">
             <h4>Regi</h4>
-            <!--             <div v-for="merit in regi" :key="merit.title">
+            <div v-for="merit in regi" :key="merit.title">
               <h5>
                 {{ merit.title }}
               </h5>
               <p>
                 {{ merit.body }} <span> {{ merit.year }}</span>
               </p>
-            </div> -->
+            </div>
           </div>
           <div class="meritWrapper">
             <h4>Dokumentär</h4>
@@ -217,47 +201,139 @@
   </div>
 </template>
 
-<script setup>
+<script>
 import { pictures } from "@/media";
-import { ref, onMounted, computed } from "vue";
-import axios from "axios";
-import { createClient } from "contentful";
-const authToken = "Bearer EERtWev1qrZXK5wQxGJCVs-W7rEOPkjIHMn38xopqDU";
-const cvItem = ref();
-const destructedCvItems = ref();
-const client = createClient({
-  space: "77vux6lerjt0",
-  environment: "master",
-  accessToken: "EERtWev1qrZXK5wQxGJCVs-W7rEOPkjIHMn38xopqDU",
-});
-function fetchCvItems() {
-  client
-    .getEntries({
-      content_type: "cvitem",
-    })
-    .then((response) => {
-      cvItem.value = response.items;
-      destructedCvItems.value = destructureCvItem(response.items);
-    })
-    .catch(console.error);
-}
+export default {
+  name: "Cv",
+  data() {
+    return {
+      pictures,
+      // lägg så småningom in alla olika kategorier här istället för i markup
+      tvOchFilm: [
+        {
+          header: "Save little William",
+          body: `Roll: Utomjording. Regi: Aleksei Kokorin. Gerasimov Institute of Cinematography 2021`,
+        },
+        {
+          header: "The Playlist",
+          body: `Roll: Kontorsanställd. Regi: Per-Olav Sørensen. Yellowbird 2022`,
+        },
 
-function destructureCvItem(items) {
-  return items.map((element) => {
-    let { fields } = element;
-    let updatedElement = { ...fields };
-    updatedElement.textList = fields.text.content.map((item) => {
-      return { value: item.content[0].value, nodeType: item.nodeType };
-    });
-    /*     updatedElement.body = fields.body.content[0].content[0].value; */
-    /*    updatedElement.image =
-      fields.image && fields.image.fields && fields.image.fields.file.url; */
-    return updatedElement;
-  });
-}
-onMounted(() => {
-  fetchCvItems();
-});
+        {
+          header: "Motståndaren",
+          body: `Roll: Rysk brottartränare (Voice over) Regi: Milad Alami.
+                 Tangy 2022`,
+        },
+        {
+          header: "Clas Ohlson reklam 3",
+
+          body: "Roll: Clas Ohlson anställd. Regi: Tom Malmros BFR 2021",
+        },
+        {
+          header: "Clas Ohlson reklam 2",
+          body: "Roll: Clas Ohlson anställd. Regi: Tom Malmros BRF 2021",
+        },
+
+        {
+          header: "Clas Ohlson reklam",
+          body: "Roll: Clas Ohlson anställd. Regi: Tom Malmros BRF 2021",
+        },
+        {
+          header: "Bäckström säsong 2",
+          body: `
+          Roll: Tsar Nikolaj II. Regi: Andreas Öhman.
+          Yellowbird, ARD Degeto och Film i Väst 2022.`,
+        },
+        {
+          header: "Drugdealer",
+          body: `
+          Roll: Knarklangare från Abchazien.
+          Manus: Jonathan Unge och Isabella Rodriguez.
+          Regissör: Isabella Rodriguez.
+          French quarter film 2021`,
+        },
+        {
+          header: "Eagels säsong 3",
+          body: `
+          Roll: Bartender
+          Regi: Carl-Petter Montell
+          New Stories 2021`,
+        },
+        {
+          header: "Hyvlingsfällan",
+          body: `Roll: Programledare Regi: Stefan Wrenfelt 2018`,
+        },
+        {
+          header: "Johan Falk: Slutet",
+          body: `Strix drama Roll: Kaganovich. Regi: Rikard Holm. 2015`,
+        },
+        {
+          header: "Ikea (reklamfilm)",
+          body: `Roll: Killen med chokladen. Regi: Jens Jonsson 2014`,
+        },
+        {
+          header: "Kardo",
+          body: `VGIK (Ryska filmhögskolan) Roll: Rysktalande man. Regi: Svetlana
+                Sigaleva 2012`,
+        },
+        {
+          header: "Aphelium",
+          body: `Roll: Självmordsbombare. Regi: Mikis Mazarakiz 2006`,
+        },
+        {
+          header: "Momentum (Kortfilm)",
+          body: `Roll: Ung kille. Regi: Malin Berg, Andreas Tillnert och Fabian
+                Yanez 2004`,
+        },
+        {
+          header: "The Bumblebee (Kortfilm)",
+          body: `Ung kille. Regi Mikis Mazarakiz 2003`,
+        },
+      ],
+      regi: [
+        {
+          title: "Ge inte upp",
+          body: `Regisserat och klippt videon till Dreaming of Space låten Ge
+                inte upp i samarbete med Andreas Granér.`,
+          year: "2019",
+        },
+        {
+          title: "Bara vara vän",
+          body: `   Regisserat, filmat och klippt kampanjfilmen Bara vara kompis i
+                samarbete med Elina Blomberg till Kompis Sverige.`,
+          year: "2019",
+        },
+        {
+          title: "Frivilliga familjehem",
+          body: `Regisserat och filmat en informationsfilm för Frivilliga
+                familjehem tillsammans med Lina. E Johansson.`,
+          year: "2018",
+        },
+        {
+          title: "Jag är kompis",
+          body: `Regisserat, filmat och klippt kampanjfilmen Jag är kompis i
+                samarbete med Elina Blomberg till Kompis Sverige. `,
+          year: "2017",
+        },
+        { title: "", body: ``, year: "" },
+        { title: "", body: ``, year: "" },
+      ],
+    };
+  },
+  computed: {},
+  metaInfo() {
+    return {
+      title: "CV",
+      meta: [
+        {
+          vmid: "description",
+          name: "CV",
+          content: "CV of actor/musician/film maker Evgeni Leonov",
+        },
+      ],
+    };
+  },
+};
 </script>
 
 <style lang="scss" scoped>
@@ -298,7 +374,6 @@ ul {
   font-size: 22px;
   font-family: "Ilisarniq-LightItalic";
   margin: 0px;
-  padding: 0;
   @media only screen and (max-width: $mobile) {
     font-size: 19px;
   }
