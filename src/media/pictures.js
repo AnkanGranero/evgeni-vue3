@@ -1,68 +1,68 @@
 export const pictures = [
       {
         id: 1,
-        src: "./images/blackNWhite.jpg",
+        src: "public/images/blackNWhite.jpg",
         class: "long",
         subject: "Evgeni"
       },
       {
         id: 2,
-        src: "./images/dreamingOfSpace.jpg",
+        src: "public/images/dreamingOfSpace.jpg",
         class: "wide",
         subject: "Evgeni"
       },
-      { id: 3, src: "./images/face.jpg", class: "wide",
+      { id: 3, src: "public/images/face.jpg", class: "wide",
     subject: "Evgeni" },
       {
         id: 4,
-        src: "./images/instruerar.jpeg",
+        src: "public/images/instruerar.jpeg",
         class: "wide",
         subject: "Evgeni"
       },
       {
         id: 5,
-        src: "./images/onSet.jpeg",
+        src: "public/images/onSet.jpeg",
         class: "wide",
         subject: "Evgeni"
       },
       {
         id: 6,
-        src: "./images/onSet2.jpeg",
+        src: "public/images/onSet2.jpeg",
         class: "wide",
         subject: "Evgeni"
       },
       {
         id: 7,
-        src: "./images/stairs.jpg",
+        src: "public/images/stairs.jpg",
         class: "long",
         subject: "Evgeni"
       },
       {
         id: 8,
-        src: "./images/standing.jpg",
+        src: "public/images/standing.jpg",
         class: "long",
         subject: "Evgeni"
       }, {
         id: 9,
-        src: "./images/Hej.jpg",
+        src: "public/images/Hej.jpg",
         class: "long",
         subject: "Evgeni"
       },
       {
         id:10,
-        src: "./images/Rosor.jpg" ,
+        src: "public/images/Rosor.jpg" ,
         class: "wide",
         subject: "Evgeni"
       },
             {
         id:11,
-        src: "./images/Start.jpeg" ,
+        src: "public/images/Start.jpeg" ,
         class: "wide",
         subject: "Evgeni"
       },
             {
         id:12,
-        src: "./images/Kavaj.jpeg" ,
+        src: "public/images/Kavaj.jpeg" ,
         class: "long",
         subject: "Evgeni"
       },      
