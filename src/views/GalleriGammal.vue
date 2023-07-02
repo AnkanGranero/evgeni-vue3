@@ -1,46 +1,3 @@
-<script setup>
-import { pictures } from "@/media";
-import { ref, onMounted, computed } from "vue";
-import axios from "axios";
-import { createClient } from "contentful";
-const authToken = "Bearer EERtWev1qrZXK5wQxGJCVs-W7rEOPkjIHMn38xopqDU";
-const client = createClient({
-  space: "77vux6lerjt0",
-  environment: "master",
-  accessToken: "EERtWev1qrZXK5wQxGJCVs-W7rEOPkjIHMn38xopqDU",
-});
-const galleryImages = ref();
-const moduleImage = ref();
-const moduleOpen = ref(false);
-
-function toggleModule() {
-  moduleOpen.value = !moduleOpen.value;
-}
-function getModuleImage(orderNumber) {
-  moduleImage.value = galleryImages.value.filter(
-    (p) => p.orderNumber == orderNumber
-  )[0].url;
-}
-function fetchGalleryImages() {
-  client
-    .getEntries({
-      content_type: "galleryImage",
-    })
-    .then((response) => {
-      galleryImages.value = response.items
-        .map((item) => {
-          const destructedItem = item.fields;
-          destructedItem.url = item.fields.image.fields.file.url;
-          return destructedItem;
-        })
-        .sort((a, b) => a.orderNumber - b.orderNumber);
-    })
-    .catch(console.error);
-}
-onMounted(() => {
-  fetchGalleryImages();
-});
-</script>
 <template>
   <div class="viewWrapper">
     <div v-if="moduleOpen" v-on:click="toggleModule()" id="moduleWrapper">
@@ -50,23 +7,70 @@ onMounted(() => {
     <div class="wrapper">
       <div class="overlay">
         <div
-          v-for="image in galleryImages"
-          :key="image.orderNumbber"
+          v-for="picture in picturesOnEvgeni"
+          :key="picture.id"
           div
           class="cell"
-          :class="image.orderNumber"
+          :class="picture.id"
         >
           <img
-            :src="image.url"
-            v-on:click="getModuleImage(image.orderNumber), toggleModule()"
-            alt="image on Evgeni Leonov"
+            :src="picture.src"
+            v-bind:class="picture.class"
+            v-on:click="getModuleImage(picture.id), toggleModule()"
+            alt="picture on Evgeni Leonov"
           />
         </div>
       </div>
     </div>
   </div>
 </template>
+<script>
+import { pictures } from "@/media";
 
+export default {
+  name: "Galleri",
+  data() {
+    return {
+      moduleOpen: false,
+      moduleImage: "",
+      pictures,
+    };
+  },
+
+  computed: {
+    picturesOnEvgeni() {
+      return this.pictures.filter((p) => p.subject === "Evgeni");
+    },
+  },
+
+  methods: {
+    toggleModule() {
+      this.moduleOpen = !this.moduleOpen;
+      /* I can't remembber why I would need to set overlay in store, doesnt seem nescesary
+      /*      console.log("this store", this.$store);
+      this.$store.commit.setOverlay(this.moduleOpen); */
+    },
+    getModuleImage(id) {
+      this.moduleImage = this.pictures.filter((p) => p.id == id)[0].src;
+    },
+  },
+  beforeMount() {
+    console.log("hej");
+  },
+  metaInfo() {
+    return {
+      title: "Gallery",
+      meta: [
+        {
+          vmid: "description",
+          name: "Gallery",
+          content: "Pictures on Evgeni Leonov",
+        },
+      ],
+    };
+  },
+};
+</script>
 <style lang="scss" scoped>
 #gallery {
   @media only screen and (max-width: $mobile) {
@@ -140,7 +144,7 @@ h1 {
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 3;
+  z-index: 2;
 }
 
 #fullScreen {

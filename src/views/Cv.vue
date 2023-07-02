@@ -1,3 +1,49 @@
+<script setup>
+import { pictures } from "@/media";
+import { ref, onMounted, computed } from "vue";
+import axios from "axios";
+import { createClient } from "contentful";
+const authToken = "Bearer EERtWev1qrZXK5wQxGJCVs-W7rEOPkjIHMn38xopqDU";
+const cvItems = ref();
+
+const destructedCvItems = ref();
+const client = createClient({
+  space: "77vux6lerjt0",
+  environment: "master",
+  accessToken: "EERtWev1qrZXK5wQxGJCVs-W7rEOPkjIHMn38xopqDU",
+});
+function fetchCvItems() {
+  client
+    .getEntries({
+      content_type: "cvitem",
+    })
+    .then((response) => {
+      cvItems.value = response.items;
+      destructedCvItems.value = destructureCvItems(response.items);
+    })
+    .catch(console.error);
+}
+
+function destructureCvItems(items) {
+  return items
+    .map((element) => {
+      let { fields } = element;
+      let updatedElement = { ...fields };
+      updatedElement.textList = fields.text.content.map((item) => {
+        return {
+          value: item.content[0].value,
+          nodeType: item.nodeType,
+        };
+      });
+
+      return updatedElement;
+    })
+    .sort((a, b) => (a.orderNumber < b.orderNumber ? -1 : 1));
+}
+onMounted(() => {
+  fetchCvItems();
+});
+</script>
 <template>
   <div class="contentWrapper">
     <h1>Cv</h1>
@@ -27,53 +73,6 @@
     </div>
   </div>
 </template>
-
-<script setup>
-import { pictures } from "@/media";
-import { ref, onMounted, computed } from "vue";
-import axios from "axios";
-import { createClient } from "contentful";
-const authToken = "Bearer EERtWev1qrZXK5wQxGJCVs-W7rEOPkjIHMn38xopqDU";
-const cvItem = ref();
-
-const destructedCvItems = ref();
-const client = createClient({
-  space: "77vux6lerjt0",
-  environment: "master",
-  accessToken: "EERtWev1qrZXK5wQxGJCVs-W7rEOPkjIHMn38xopqDU",
-});
-function fetchCvItems() {
-  client
-    .getEntries({
-      content_type: "cvitem",
-    })
-    .then((response) => {
-      cvItem.value = response.items;
-      destructedCvItems.value = destructureCvItem(response.items);
-    })
-    .catch(console.error);
-}
-
-function destructureCvItem(items) {
-  return items
-    .map((element) => {
-      let { fields } = element;
-      let updatedElement = { ...fields };
-      updatedElement.textList = fields.text.content.map((item) => {
-        return {
-          value: item.content[0].value,
-          nodeType: item.nodeType,
-        };
-      });
-
-      return updatedElement;
-    })
-    .sort((a, b) => (a.orderNumber < b.orderNumber ? -1 : 1));
-}
-onMounted(() => {
-  fetchCvItems();
-});
-</script>
 
 <style lang="scss" scoped>
 h4 {
