@@ -1,45 +1,3 @@
-<script setup>
-import { VIDEO_TYPES, logos } from "@/media/";
-import { Hamburger, CellphoneMenu, DesktopMenu } from "./index";
-import fetchFromContentful from "@/helpers/helperfunctions.js";
-import { ref, onMounted, computed } from "vue";
-
-const logoLinks = ref();
-const videoTypes = VIDEO_TYPES;
-const desktopMenuIsOpen = ref(false);
-const cellphoneMenuIsOpen = ref(false);
-
-const views = computed(() => {
-  return [
-    { name: "Hej", link: "/" },
-    { name: "Aktuellt", link: "/Aktuellt" },
-    { name: "Galleri", link: "/Galleri" },
-    { name: "Cv", link: "/Cv" },
-  ];
-});
-const videoDropdown = computed(() => {
-  return {
-    name: "Video",
-    link: "/Video",
-    params: ["Skådespelare", "Regissör", "Musik"],
-  };
-});
-onMounted(async () => {
-  try {
-    await fetchFromContentful("headerMenuLink").then(
-      (resp) =>
-        (logoLinks.value = resp.map((item) => {
-          let { fields } = item;
-          let updatedElement = { ...fields };
-
-          return updatedElement;
-        }))
-    );
-  } catch (error) {
-    throw error;
-  }
-});
-</script>
 <template>
   <div class="headerWrapper">
     <CellphoneMenu
@@ -53,7 +11,7 @@ onMounted(async () => {
     <div class="topMenu">
       <h2 class="topMenu__header">EVGENI LEONOV</h2>
       <img
-        src="../../../public/logos/hamburger.png"
+        :src="getLogoByName('hamburger').src"
         class="hamburger"
         @click="cellphoneMenuIsOpen = true"
       />
@@ -83,6 +41,54 @@ onMounted(async () => {
     </div>
   </div>
 </template>
+
+<script>
+import { VIDEO_TYPES, getLogoByName, logos } from "@/media/";
+import { Hamburger, CellphoneMenu, DesktopMenu } from "./index";
+import fetchFromContentful from "@/helpers/helperfunctions.js";
+
+export default {
+  name: "headerComponent",
+  components: {
+    Hamburger,
+    DesktopMenu,
+    CellphoneMenu,
+  },
+  data() {
+    return {
+      VIDEO_TYPES,
+      desktopMenuIsOpen: false,
+      cellphoneMenuIsOpen: false,
+    };
+  },
+  beforeMount() {
+    fetchFromContentful("headerMenuLink");
+  },
+  methods: {
+    getLogoByName,
+  },
+  computed: {
+    views() {
+      return [
+        { name: "Hej", link: "/" },
+        { name: "Aktuellt", link: "/Aktuellt" },
+        { name: "Galleri", link: "/Galleri" },
+        { name: "Cv", link: "/Cv" },
+      ];
+    },
+    logoLinks() {
+      return logos.filter((l) => l.type === "logolink");
+    },
+    videoDropdown() {
+      return {
+        name: "Video",
+        link: "/Video",
+        params: ["Skådespelare", "Regissör", "Musik"],
+      };
+    },
+  },
+};
+</script>
 
 <style lang="scss">
 .hamburger {
