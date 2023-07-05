@@ -31,7 +31,8 @@ onMounted(async () => {
         (logoLinks.value = resp.map((item) => {
           let { fields } = item;
           let updatedElement = { ...fields };
-
+          updatedElement.link = item.fields.link.content[0].content[0].value;
+          updatedElement.image = item.fields.image.fields.file.url;
           return updatedElement;
         }))
     );
@@ -53,7 +54,7 @@ onMounted(async () => {
     <div class="topMenu">
       <h2 class="topMenu__header">EVGENI LEONOV</h2>
       <img
-        src="../../../public/logos/hamburger.png"
+        src="/logos/hamburger.png"
         class="hamburger"
         @click="cellphoneMenuIsOpen = true"
       />
@@ -63,11 +64,11 @@ onMounted(async () => {
       <div class="links">
         <a
           v-for="logo in logoLinks"
-          :href="logo.href"
+          :href="logo.link"
           :key="logo.name"
           class="links__link"
         >
-          <img :src="logo.src" alt />
+          <img :src="logo.image" alt />
         </a>
       </div>
       <div class="menu">
