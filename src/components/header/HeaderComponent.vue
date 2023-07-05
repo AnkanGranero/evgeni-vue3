@@ -54,7 +54,7 @@ onMounted(async () => {
     <div class="topMenu">
       <h2 class="topMenu__header">EVGENI LEONOV</h2>
       <img
-        src="/logos/hamburger.png"
+        src="@/assets/hamburger.png"
         class="hamburger"
         @click="cellphoneMenuIsOpen = true"
       />

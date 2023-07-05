@@ -1,5 +1,4 @@
 <script setup>
-import { pictures } from "@/media";
 import { ref, onMounted, computed } from "vue";
 import axios from "axios";
 import { createClient } from "contentful";
