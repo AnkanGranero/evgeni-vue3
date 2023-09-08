@@ -2,8 +2,8 @@
   <footer class="footerWrapper">
     <p><span>Kontakta mig:</span> 070 402 46 06</p>
 
-    <a :href="mailLogo.href">
-      <img :src="mailLogo.src" />
+    <a href="mailto:evgenileonov1987@gmail.com">
+      <img src="@/assets/mail.png" />
     </a>
     <p>
       <span>evgenileonov1987@gmail.com</span>
@@ -11,14 +11,8 @@
   </footer>
 </template>
 <script>
-import { getLogoByName } from "@/media";
 export default {
   name: "Footer",
-  computed: {
-    mailLogo() {
-      return getLogoByName("mail");
-    },
-  },
 };
 </script>
 <style lang="scss" scoped>
