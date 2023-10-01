@@ -1,10 +1,52 @@
+<script setup>
+import { VIDEO_TYPES } from "@/media";
+import fetchFromContentful from "@/helpers/helperfunctions.js";
+import { ref, onMounted, computed } from "vue";
+import { useStore } from "vuex";
+import { useRoute } from "vue-router";
+
+const store = useStore();
+/* const props = defineProps({
+  size: String,
+}); */
+const mediaItems = ref();
+const videoTypes = VIDEO_TYPES;
+const route = useRoute();
+const videoType = computed(() => route.params.videoType);
+const videosByType = computed(() => {
+  if (mediaItems.value) {
+    return mediaItems.value.filter((item) =>
+      item.type.includes(videoType.value)
+    );
+  }
+});
+function clickedVideoType(payload) {
+  store.dispatch("clickedVideoType", payload);
+}
+onMounted(async () => {
+  try {
+    await fetchFromContentful("mediaItem").then(
+      (resp) =>
+        (mediaItems.value = resp.map((item) => {
+          let newItem = { ...item.fields };
+          if (item.fields.image) {
+            newItem.image = item.fields.image.fields.file.url;
+          }
+          return newItem;
+        }))
+    );
+  } catch (error) {
+    throw error;
+  }
+});
+</script>
 <template>
   <div class="wrapper">
     <div class="body-wrapper">
       <div class="videoTypes">
         <router-link
           class="videoTypeLinks"
-          v-for="type in VIDEO_TYPES"
+          v-for="type in videoTypes"
           :to="{ name: 'video', params: { videoType: type } }"
           :key="type.index"
           >{{ type }}</router-link
@@ -13,62 +55,22 @@
       <div class="videoBox" v-for="video in videosByType" :key="video.index">
         <h3>{{ video.name }}</h3>
         <div class="videoWrapper" :class="{ youtube: video.site }">
+          <a v-if="video.image" :href="video.linkn">
+            <img :src="video.image" class="videoImg" />
+          </a>
           <iframe
-            v-if="video.link"
+            v-else
             class="iframe"
             :src="video.link"
             frameborder="0"
             allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
             allowfullscreen
           ></iframe>
-          <a v-if="video.href" :href="video.href">
-            <img :src="video.img" class="videoImg" />
-          </a>
         </div>
       </div>
     </div>
   </div>
 </template>
-
-<script>
-import { videos, VIDEO_TYPES } from "@/media";
-export default {
-  name: "Video",
-  props: ["size"],
-  data() {
-    return {
-      videos,
-      VIDEO_TYPES,
-    };
-  },
-  computed: {
-    videoType() {
-      return this.$route.params.videoType;
-    },
-    videosByType() {
-      return this.videos.filter((v) => v.type.includes(this.videoType));
-    },
-  },
-  methods: {
-    clickedVideoType(payload) {
-      this.store.dispatch(clickedVideoType, payload);
-    },
-  },
-  metaInfo() {
-    return {
-      title: "Videos",
-      meta: [
-        {
-          vmid: "description",
-          name: "Videos",
-          content: "Videos by or with appearances of Evgeni Leonov",
-        },
-      ],
-    };
-  },
-};
-</script>
-
 
 <style lang="scss" scoped>
 .video-body {
