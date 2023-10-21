@@ -6,10 +6,16 @@ import { useStore } from "vuex";
 import { useRoute } from "vue-router";
 
 const store = useStore();
-/* const props = defineProps({
-  size: String,
-}); */
+
 const mediaItems = ref();
+/* const mediaItemsSorted = computed(() => {
+  return (
+    mediaItems.value &&
+    mediaItems.value.sort((a, b) => {
+      return a.date < b.date ? -1 : 1;
+    })
+  );
+}); */
 const videoTypes = VIDEO_TYPES;
 const route = useRoute();
 const videoType = computed(() => route.params.videoType);
@@ -27,13 +33,20 @@ onMounted(async () => {
   try {
     await fetchFromContentful("mediaItem").then(
       (resp) =>
-        (mediaItems.value = resp.map((item) => {
-          let newItem = { ...item.fields };
-          if (item.fields.image) {
-            newItem.image = item.fields.image.fields.file.url;
-          }
-          return newItem;
-        }))
+        (mediaItems.value = resp
+          .map((item) => {
+            let newItem = { ...item.fields };
+            if (item.fields.image) {
+              newItem.image = item.fields.image.fields.file.url;
+            }
+            if (!item.fields.date) {
+              newItem.date = "0000-00-00";
+            }
+            return newItem;
+          })
+          .sort((a, b) => {
+            return a.date < b.date ? 1 : -1;
+          }))
     );
   } catch (error) {
     throw error;
