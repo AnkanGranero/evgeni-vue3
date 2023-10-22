@@ -1,7 +1,7 @@
 export const VIDEO_TYPES = {
-  ACTOR: "Skådespelare",
-  DIRECTOR: "Regissör",
-  MUSIC: "Musik"
+  ACTOR: "Actor",
+  DIRECTOR: "Director",
+  MUSIC: "Music"
 }
 
 export const videos = [
