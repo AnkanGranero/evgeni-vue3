@@ -2,19 +2,15 @@ import { fileURLToPath, URL } from 'node:url'
 
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
-import pluginRewriteAll from 'vite-plugin-rewrite-all' 
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: '/',
-  root: './',
+  base: '/evgeni-vue3/',
       build: {
         outDir: 'dist',
     },
   publicDir: 'assets',
-  plugins: [vue(), pluginRewriteAll({
-      endpoint: 'index.html' // Konfigurera pluginet för att omdirigera alla förfrågningar till index.html
-    })], 
+  plugins: [vue()],
   resolve: {
     alias: [
       { find: '@', replacement: fileURLToPath(new URL('./src', import.meta.url)) } ]
